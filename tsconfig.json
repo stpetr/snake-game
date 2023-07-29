@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    /* @TODO remove allowJs */
+    "allowJs": true,
     "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
