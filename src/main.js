@@ -256,7 +256,7 @@ function snakeGame(canvas) {
   function renderFood() {
     const halfCell = Math.floor(cellSize / 2)
 
-    ctx.fillStyle = '#ff9000'
+    ctx.fillStyle = '#cd5c5c'
     ctx.beginPath()
     // ctx.fillRect(field.x + food.x * cellSize, field.y + food.y * cellSize, cellSize, cellSize)
     ctx.arc(field.x + food.x * cellSize + halfCell, field.y + food.y * cellSize + halfCell, halfCell, 0, Math.PI * 2)
