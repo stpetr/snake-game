@@ -1,0 +1,38 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Snake Game Dev
+
+on:
+  push:
+    branches: ["development"]
+  pull_request:
+    branches: ["development"]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    defaults:
+      run:
+        working-directory: /var/www/html/dev/dev.snake-game.petes-bits.com
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: git fetch origin $GITHUB_REF:$GITHUB_REF -u
+      - run: git checkout $GITHUB_REF -f
+      - run: git pull origin $GITHUB_REF
+      - run: npm ci
+      - run: npm run build
+      - run: rm -rf web
+      - run: mv dist web
