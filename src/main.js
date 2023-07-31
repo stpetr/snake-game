@@ -1,3 +1,5 @@
+import './styles.css'
+
 function snakeGame(canvas) {
   const FIELD_ROWS = 15,
     FIELD_COLS = 25,
