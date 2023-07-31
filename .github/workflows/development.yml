@@ -6,8 +6,6 @@ name: Snake Game Dev
 on:
   push:
     branches: ["development"]
-  pull_request:
-    branches: ["development"]
 
 jobs:
   build:
