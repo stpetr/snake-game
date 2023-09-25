@@ -16,10 +16,11 @@ function snakeGame(canvas) {
     DIRECTION_LEFT = 'left',
     DIRECTION_RIGHT = 'right',
     DEFAULT_SNAKE_LENGTH = 3,
-    DEFAULT_SPEED = 300
+    DEFAULT_SPEED = 280
 
   let gameState = GAME_STATE_READY
   let speed = DEFAULT_SPEED
+  let prevTimestamp = 0
 
   // @todo refactor
   let cellSize = 0
@@ -308,17 +309,17 @@ function snakeGame(canvas) {
     }
   }
 
-  function mainCycle() {
-    if (gameState === GAME_STATE_PAUSE) {
-      return
+  function mainCycle(timestamp) {
+    const timestampDelta = timestamp - prevTimestamp
+    if (timestampDelta > speed && gameState !== GAME_STATE_PAUSE) {
+      moveSnake()
+      checkCollisions()
+
+      render()
+      prevTimestamp = timestamp
     }
 
-    moveSnake()
-    checkCollisions()
-
-    render()
-
-    setTimeout(mainCycle, speed)
+    requestAnimationFrame(mainCycle)
   }
 
   function main() {
@@ -379,7 +380,7 @@ function snakeGame(canvas) {
       }
     })
 
-    mainCycle()
+    requestAnimationFrame(mainCycle)
   }
 
   main()
