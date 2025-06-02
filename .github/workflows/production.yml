@@ -1,25 +1,14 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Snake Game Prod
-
 on:
   push:
     branches: ["master"]
-
 jobs:
   build:
-
     runs-on: self-hosted
-
-    defaults:
-      run:
-        working-directory: /var/www/html/prod/snake-game.petes-bits.com
-
+    environment: production
     strategy:
       matrix:
-        node-version: [16.x]
-
+        node-version: [22.x]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -32,5 +21,4 @@ jobs:
       - run: git pull origin $GITHUB_REF
       - run: npm ci
       - run: npm run build
-      - run: rm -rf web
-      - run: mv dist web
+      - run: rsync -av --checksum --delete --no-times --chown=www-data:www-data --chmod=F775,D775 ./dist/ ${{ secrets.WEB_ROOT_PATH }}
